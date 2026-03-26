@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+{% include base_path %}
+
+<div id="main" role="main">
+  {% include sidebar.html %}
+
+  <div class="archive">
+    <h1 class="page__title">{{ page.title }}</h1>
+
+    {% assign posts = site.posts | sort: 'date' | reverse %}
+    {% for post in posts %}
+      <div class="blog-item" style="margin-bottom: 2em;">
+        {% if post.header.teaser %}
+          <a href="{{ base_path }}{{ post.url }}">
+            <img src="{% if post.header.teaser contains '://' %}{{ post.header.teaser }}{% else %}{{ base_path }}/images/{{ post.header.teaser }}{% endif %}" alt="{{ post.title }}" style="width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 0.5em;">
+          </a>
+        {% endif %}
+        <h2 class="archive__item-title" style="margin-top: 0.25em;">
+          <a href="{{ base_path }}{{ post.url }}">{{ post.title }}</a>
+        </h2>
+        <p class="page__date" style="margin: 0.25em 0;">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time>
+        </p>
+        {% if post.excerpt %}
+          <p class="archive__item-excerpt">{{ post.excerpt | markdownify | strip_html | truncate: 200 }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
